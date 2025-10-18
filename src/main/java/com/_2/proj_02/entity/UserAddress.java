@@ -2,49 +2,49 @@ package com._2.proj_02.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.cglib.core.Local;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "user_address")
 @Getter
-@ToString
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_address_id")
     private Long userAddressId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false, length = 50, name = "recipient_name")
+    @Column(name = "recipient_name", nullable = false, length = 50)
     private String recipientName;
 
-    @Column(nullable = false, length = 10)
+    @Column(name = "base_address", nullable = false, length = 10)
     private String baseAddress;
 
-    @Column(nullable = false)
+    @Column(name = "detail_address", nullable = false, length = 255)
     private String detailAddress;
 
-    @Column(nullable = false)
+    @Column(name = "zipcode", nullable = false, length = 255)
     private String zipcode;
 
-    @Builder.Default
+    @Column(name = "is_default", nullable = false)
     private Boolean isDefault = false;
 
     @CreationTimestamp
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }
