@@ -1,45 +1,44 @@
 package com._2.proj_02.service;
 
-
+import com._2.proj_02.dto.request.ProfileUpdateDTO;
+import com._2.proj_02.dto.response.ProfileResponseDTO;
+import com._2.proj_02.repository.ProfileRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
+@RequiredArgsConstructor
 @Service
 public class ProfileService {
 
-    // 비밀번호 본인확인
+    private final ProfileRepository profileRepository;
+
     public void verifyPassword(String password) {
-        // 실제 검증 로직
-        // 현재 로그인한 사용자의 비밀번호와 비교
+        Profile profile = profileRepository.findById(1L) // 실제로는 SecurityContext에서 ID 가져오기
+                .orElseThrow(() -> new RuntimeException("프로필 없음"));
+        if (!profile.getPassword().equals(password)) {
+            throw new RuntimeException("비밀번호 불일치");
+        }
     }
 
-    // 기본 정보 조회
-    public Map<String, Object> getProfile() {
-        // DB에서 사용자 정보 조회
-        return Map.of(
-                "username", "user1",
-                "email", "user1@example.com",
-                "phone", "010-1234-5678",
-                "createdAt", "2024-01-01"
-        );
+    public ProfileResponseDTO getProfile() {
+        Profile profile = profileRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("프로필 없음"));
+        return new ProfileResponseDTO(profile);
     }
 
-    // 기본 정보 수정
-    public void updateProfile(Map<String, Object> profileData) {
-        // username, email, phone 등 업데이트
-        // DB 저장 로직
+    public void updateProfile(ProfileUpdateDTO dto) {
+        Profile profile = profileRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("프로필 없음"));
+        profile.updateFromDTO(dto);
+        profileRepository.save(profile);
     }
 
-    // 전화번호 인증번호 발송
-    public void sendPhoneVerification(String phone) {
-        // SMS 인증번호 발송 로직
-        // 인증번호 임시 저장 (Redis 등)
+    public void sendPhoneVerification(PhoneVerificationDTO dto) {
+        // TODO: SMS 발송 로직
     }
 
-    // 이메일 인증번호 발송
-    public void sendEmailVerification(String email) {
-        // 이메일 인증번호 발송 로직
-        // 인증번호 임시 저장
+    public void sendEmailVerification(EmailVerificationDTO dto) {
+        // TODO: 이메일 발송 로직
     }
 }

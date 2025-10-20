@@ -1,21 +1,19 @@
-package com._2.proj_02.dto;
+package com._2.proj_02.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ReviewResponseDto {
+public class ReviewResponseDTO {
     private Long reviewId;
     private Long productId;
     private String productName;
-    private Integer rating;
     private String content;
-    private LocalDateTime createdAt;
+    private Integer rating;
+    private String createdAt;
 }

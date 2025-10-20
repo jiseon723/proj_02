@@ -1,144 +1,84 @@
 package com._2.proj_02.service;
 
+import com._2.proj_02.dto.request.DeliveryAddressUpdateDTO;
+import com._2.proj_02.dto.request.ExchangeRequestDTO;
+import com._2.proj_02.dto.request.RefundRequestDTO;
+import com._2.proj_02.dto.response.DeliveryResponseDTO;
+import com._2.proj_02.entity.Delivery;
+import com._2.proj_02.repository.DeliveryRepository;
+import com._2.proj_02.repository.OrderRepository;
+import jakarta.persistence.criteria.Order;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class OrderService {
 
-    // 배송 리스트 조회
-    public List<Map<String, Object>> getDeliveryList() {
-        // 배송 중인 주문 조회
-        return List.of(
-                Map.of(
-                        "orderId", 1L,
-                        "orderNumber", "ORD-20241001-001",
-                        "status", "배송중",
-                        "trackingNumber", "123456789",
-                        "courier", "CJ대한통운",
-                        "estimatedDelivery", "2024-10-25"
-                ),
-                Map.of(
-                        "orderId", 2L,
-                        "orderNumber", "ORD-20241002-002",
-                        "status", "배송완료",
-                        "trackingNumber", "987654321",
-                        "courier", "우체국택배",
-                        "deliveredAt", "2024-10-20"
-                )
-        );
+    private final OrderRepository orderRepository;
+    private final DeliveryRepository deliveryRepository;
+
+    public List<DeliveryResponseDTO> getDeliveryList() {
+        return deliveryRepository.findAll()
+                .stream()
+                .map(DeliveryResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    // 배송 취소 요청
-    public void cancelDelivery(Long orderId) {
-        // 주문 상태 확인 (배송 전인지)
-        // 취소 가능 여부 확인
-        // 주문 상태 변경
-        // 결제 취소 처리
+    public void cancelDelivery(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new RuntimeException("배송 없음"));
+        delivery.cancel();
+        deliveryRepository.save(delivery);
     }
 
-    // 배송 상세 정보 조회
-    public Map<String, Object> getDeliveryDetail(Long orderId) {
-        // 배송 상세 정보 조회
-        return Map.of(
-                "orderId", orderId,
-                "orderNumber", "ORD-20241001-001",
-                "status", "배송중",
-                "recipient", "홍길동",
-                "address", "서울시 강남구 테헤란로 123, 456호",
-                "phone", "010-1234-5678",
-                "trackingNumber", "123456789",
-                "courier", "CJ대한통운",
-                "items", List.of(
-                        Map.of("productName", "도자기 머그컵", "quantity", 2, "price", 50000)
-                )
-        );
+    public DeliveryResponseDTO getDeliveryDetail(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new RuntimeException("배송 없음"));
+        return new DeliveryResponseDTO(delivery);
     }
 
-    // 배송지 수정
-    public void updateDeliveryAddress(Long orderId, Map<String, Object> addressData) {
-        // 배송 상태 확인 (배송 시작 전인지)
-        // 배송지 수정
-        // 택배사에 변경 요청 (필요시)
+    public void updateDeliveryAddress(DeliveryAddressUpdateDTO dto) {
+        Delivery delivery = deliveryRepository.findById(dto.getDeliveryId())
+                .orElseThrow(() -> new RuntimeException("배송 없음"));
+        delivery.updateAddress(dto);
+        deliveryRepository.save(delivery);
     }
 
-    // 수취 완료 처리
-    public void confirmReceipt(Long orderId) {
-        // 주문 상태 확인
-        // 수취 완료로 상태 변경
-        // 판매자에게 정산 가능 알림
+    public void confirmReceipt(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new RuntimeException("배송 없음"));
+        delivery.confirmReceipt();
+        deliveryRepository.save(delivery);
     }
 
-    // 주문 리스트 조회
-    public List<Map<String, Object>> getOrdersList() {
-        // 전체 주문 내역 조회
-        return List.of(
-                Map.of(
-                        "orderId", 1L,
-                        "orderNumber", "ORD-20241001-001",
-                        "orderDate", "2024-10-01",
-                        "status", "배송중",
-                        "totalAmount", 75000,
-                        "itemCount", 2
-                ),
-                Map.of(
-                        "orderId", 2L,
-                        "orderNumber", "ORD-20240915-001",
-                        "orderDate", "2024-09-15",
-                        "status", "배송완료",
-                        "totalAmount", 45000,
-                        "itemCount", 1
-                )
-        );
+    public List<OrderResponseDTO> getOrdersList() {
+        return orderRepository.findAll()
+                .stream()
+                .map(OrderResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    // 주문 상세 정보 조회
-    public Map<String, Object> getOrderDetail(Long orderId) {
-        // 주문 상세 정보 조회
-        return Map.of(
-                "orderId", orderId,
-                "orderNumber", "ORD-20241001-001",
-                "orderDate", "2024-10-01",
-                "status", "배송중",
-                "items", List.of(
-                        Map.of(
-                                "productId", 101L,
-                                "productName", "도자기 머그컵",
-                                "quantity", 2,
-                                "price", 25000,
-                                "subtotal", 50000
-                        )
-                ),
-                "payment", Map.of(
-                        "method", "신용카드",
-                        "amount", 75000,
-                        "discount", 5000
-                ),
-                "delivery", Map.of(
-                        "recipient", "홍길동",
-                        "address", "서울시 강남구 테헤란로 123",
-                        "phone", "010-1234-5678"
-                )
-        );
+    public OrderResponseDTO getOrderDetail(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문 없음"));
+        return new OrderResponseDTO(order);
     }
 
-    // 환불 요청
-    public void requestRefund(Long orderId, Map<String, Object> refundData) {
-        // 주문 상태 확인
-        // 환불 가능 기간 확인
-        // 환불 사유, 계좌 정보 저장
-        // 판매자에게 환불 요청 알림
-        // 주문 상태 변경
+    public void requestRefund(Long orderId, RefundRequestDTO dto) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문 없음"));
+        order.requestRefund(dto);
+        orderRepository.save(order);
     }
 
-    // 교환 요청
-    public void requestExchange(Long orderId, Map<String, Object> exchangeData) {
-        // 주문 상태 확인
-        // 교환 가능 기간 확인
-        // 교환 사유, 상품 정보 저장
-        // 판매자에게 교환 요청 알림
-        // 주문 상태 변경
+    public void requestExchange(Long orderId, ExchangeRequestDTO dto) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문 없음"));
+        order.requestExchange(dto);
+        orderRepository.save(order);
     }
 }

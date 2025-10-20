@@ -1,18 +1,19 @@
-package com._2.proj_02.dto;
+package com._2.proj_02.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class OrderItemDto {
+public class CartResponseDTO {
+    private Long cartId;
     private Long productId;
     private String productName;
     private Integer quantity;
     private Integer price;
-    private String thumbnail;
+    private Boolean selected;
 }
