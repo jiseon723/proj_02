@@ -35,4 +35,7 @@ public class WishList {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+    public Long getProductId() {
+    }
 }

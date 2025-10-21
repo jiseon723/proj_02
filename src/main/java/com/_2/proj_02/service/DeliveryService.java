@@ -1,5 +1,6 @@
 package com._2.proj_02.service;
 
+import com._2.proj_02.dto.request.DeliveryRequest;
 import com._2.proj_02.dto.response.DeliveryResponse;
 import com._2.proj_02.entity.Delivery;
 import com._2.proj_02.repository.DeliveryRepository;
@@ -18,7 +19,7 @@ public class DeliveryService {
 
     // 배송 정보 수정
     @Transactional
-    public DeliveryResponse updateDelivery(DeliveryUpdateRequest request) {
+    public DeliveryResponse updateDelivery(DeliveryRequest request) {
         Delivery delivery = deliveryRepository.findById(request.getDeliveryId())
                 .orElseThrow(() -> new IllegalArgumentException("배송 정보를 찾을 수 없습니다."));
 

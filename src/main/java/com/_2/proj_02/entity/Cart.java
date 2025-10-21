@@ -37,4 +37,7 @@ public class Cart {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+    public Long getProductId() {
+    }
 }

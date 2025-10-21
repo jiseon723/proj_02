@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DeliveryUpdateRequest {
+public class DeliveryRequest {
 
     private Long deliveryId;
     private String trackingNumber;

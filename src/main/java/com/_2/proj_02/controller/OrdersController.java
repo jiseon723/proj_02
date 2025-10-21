@@ -1,6 +1,6 @@
 package com._2.proj_02.controller;
 
-import com._2.proj_02.dto.request.DeliveryUpdateRequest;
+import com._2.proj_02.dto.request.DeliveryRequest;
 import com._2.proj_02.dto.response.DeliveryResponse;
 import com._2.proj_02.dto.response.OrdersResponse;
 import com._2.proj_02.service.DeliveryService;
@@ -55,7 +55,7 @@ public class OrdersController {
     // 배송 정보 수정 (AJAX)
     @PatchMapping("/delivery")
     @ResponseBody
-    public ResponseEntity<DeliveryResponse> updateDelivery(@RequestBody DeliveryUpdateRequest request) {
+    public ResponseEntity<DeliveryResponse> updateDelivery(@RequestBody DeliveryRequest request) {
         DeliveryResponse response = deliveryService.updateDelivery(request);
         return ResponseEntity.ok(response);
     }
