@@ -2,6 +2,7 @@ package com._2.proj_02.repository;
 
 import com._2.proj_02.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
