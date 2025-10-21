@@ -1,6 +1,6 @@
 package com._2.proj_02.global.initData;
 
-import com.gobang.gobang.domain.product.themaService.ThemeService;
+import com._2.proj_02.domain.product.themaService.ThemeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

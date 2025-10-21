@@ -1,7 +1,7 @@
 package com._2.proj_02.global.jwt;
 
-import com.gobang.gobang.domain.auth.entity.SiteUser;
-import com.gobang.gobang.global.util.Util;
+import com._2.proj_02.domain.auth.entity.SiteUser;
+import com._2.proj_02.global.util.Util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

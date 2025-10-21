@@ -1,20 +1,19 @@
 package com._2.proj_02.domain.review.controller;
 
 
-import com.gobang.gobang.domain.review.entity.Review;
-import com.gobang.gobang.domain.review.entity.ReviewReport;
-import com.gobang.gobang.domain.review.service.ReviewCommentService;
-import com.gobang.gobang.domain.review.service.ReviewReportService;
-import com.gobang.gobang.domain.review.service.ReviewService;
-import com.gobang.gobang.global.RsData.RsData;
+import com._2.proj_02.domain.review.entity.Review;
+import com._2.proj_02.domain.review.service.ReviewCommentService;
+import com._2.proj_02.domain.review.service.ReviewReportService;
+import com._2.proj_02.domain.review.service.ReviewService;
+import com._2.proj_02.global.RsData.RsData;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

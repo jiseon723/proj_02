@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.product.entity;
 
-import com.gobang.gobang.global.jpa.BaseEntity;
+import com._2.proj_02.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,7 +23,7 @@ import java.util.Set;
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_theme_code", columnNames = {"code"})
         })
-public class Theme extends BaseEntity{
+public class Theme extends BaseEntity {
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 

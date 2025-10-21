@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.member.controller;
 
-import com.gobang.gobang.domain.member.dto.MemberResponseDto;
+import com._2.proj_02.domain.member.dto.MemberResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

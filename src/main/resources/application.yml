@@ -13,6 +13,6 @@ spring:
 logging:
   level:
     root: INFO
-    com.example.sksb: DEBUG
+    example.demo.rest_api: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE

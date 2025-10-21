@@ -1,8 +1,8 @@
 package com._2.proj_02.domain.product.entity;
 
-import com.gobang.gobang.domain.product.common.FilterInputType;
-import com.gobang.gobang.domain.product.common.FilterSelectType;
-import com.gobang.gobang.global.jpa.BaseEntity;
+import com._2.proj_02.domain.product.common.FilterInputType;
+import com._2.proj_02.domain.product.common.FilterSelectType;
+import com._2.proj_02.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

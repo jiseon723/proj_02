@@ -1,12 +1,17 @@
 package com._2.proj_02.domain.product.entity;
 
-import com.gobang.gobang.domain.product.common.ProductStatus;
-import com.gobang.gobang.global.jpa.BaseEntity;
+import com._2.proj_02.domain.mypage.entity.Cart;
+import com._2.proj_02.domain.mypage.entity.OrderItem;
+import com._2.proj_02.domain.mypage.entity.WishList;
+import com._2.proj_02.domain.product.common.ProductStatus;
+import com._2.proj_02.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -85,4 +90,13 @@ public class Product extends BaseEntity {
             )
     )
     private Set<Theme> themes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishList> wishLists = new ArrayList<>();
 }

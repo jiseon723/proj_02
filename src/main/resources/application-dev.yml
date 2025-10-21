@@ -7,14 +7,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db_dev;MODE=MYSQL
-    username: sa
-    password:
-#  datasource:
-#    driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://127.0.0.1:3306/db_dev
-#    username: root
-#    password:
-custom:
-  fileDirPath: /usr/file
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver

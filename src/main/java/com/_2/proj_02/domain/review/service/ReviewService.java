@@ -1,8 +1,7 @@
 package com._2.proj_02.domain.review.service;
 
-import com.gobang.gobang.domain.review.dto.ReviewCreateRequestDto;
-import com.gobang.gobang.domain.review.entity.Review;
-import com.gobang.gobang.domain.review.repository.ReviewRepository;
+import com._2.proj_02.domain.review.entity.Review;
+import com._2.proj_02.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +54,8 @@ public class ReviewService {
 //            return reviewRepository.save(review);
 //        });
 //    }
-
-
+//
+//
 //    // 리뷰 삭제
 //    @Transactional
 //    public boolean deleteReview(Long id) {

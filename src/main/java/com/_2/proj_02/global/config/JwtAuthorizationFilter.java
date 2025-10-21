@@ -1,7 +1,7 @@
 package com._2.proj_02.global.config;
 
-import com.gobang.gobang.domain.auth.service.SiteUserService;
-import com.gobang.gobang.global.RsData.RsData;
+import com._2.proj_02.domain.auth.service.SiteUserService;
+import com._2.proj_02.global.RsData.RsData;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

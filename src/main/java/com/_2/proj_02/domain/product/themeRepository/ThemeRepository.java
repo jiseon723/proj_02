@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.product.themeRepository;
 
-import com.gobang.gobang.domain.product.entity.Theme;
+import com._2.proj_02.domain.product.entity.Theme;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

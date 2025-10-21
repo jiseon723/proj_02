@@ -9,8 +9,10 @@ import com._2.proj_02.domain.auth.service.SiteUserService;
 import com._2.proj_02.global.RsData.RsData;
 import com._2.proj_02.global.jwt.JwtProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

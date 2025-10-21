@@ -1,9 +1,9 @@
 package com._2.proj_02.domain.product.homeController;
 
-import com.gobang.gobang.domain.product.dto.ThemeDto;
-import com.gobang.gobang.domain.product.dto.response.ProductResponse;
-import com.gobang.gobang.domain.product.themaService.ThemeService;
-import com.gobang.gobang.global.RsData.RsData;
+import com._2.proj_02.domain.product.dto.ThemeDto;
+import com._2.proj_02.domain.product.dto.response.ProductResponse;
+import com._2.proj_02.domain.product.themaService.ThemeService;
+import com._2.proj_02.global.RsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
