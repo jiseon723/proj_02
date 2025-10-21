@@ -2,8 +2,6 @@ package com._2.proj_02.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -26,7 +24,7 @@ public class PaymentMethod {
     private SiteUser user;
 
     @Column(name = "type", nullable = false, length = 10)
-    private String type;
+    private String type; // '카드' 또는 '계좌'
 
     @Column(name = "bank_name", length = 50)
     private String bankName;
@@ -38,7 +36,7 @@ public class PaymentMethod {
     private String cardCompany;
 
     @Column(name = "card_number", length = 100)
-    private String cardNumber;
+    private String cardNumber; // 마스킹 저장
 
     @Column(name = "default_payment", nullable = false)
     private Boolean defaultPayment = false;

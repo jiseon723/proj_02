@@ -1,42 +1,111 @@
 package com._2.proj_02.service;
 
-import com._2.proj_02.dto.request.UserAddressCreateDTO;
-import com._2.proj_02.dto.request.UserAddressUpdateDTO;
-import com._2.proj_02.dto.response.UserAddressResponseDTO;
+import com._2.proj_02.dto.request.UserAddressRequest;
+import com._2.proj_02.dto.response.UserAddressResponse;
+import com._2.proj_02.entity.SiteUser;
 import com._2.proj_02.entity.UserAddress;
 import com._2.proj_02.repository.UserAddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserAddressService {
 
-    private final UserAddressRepository addressRepository;
+    private final UserAddressRepository userAddressRepository;
 
-    public List<UserAddressResponseDTO> getAddressList() {
-        return addressRepository.findAll()
-                .stream()
-                .map(UserAddressResponseDTO::new)
+    // 사용자별 배송지 목록 조회
+    public List<UserAddressResponse> getAddressesByUserId(Long userId) {
+        List<UserAddress> addresses = userAddressRepository.findByUser_UserId(userId);
+
+        return addresses.stream()
+                .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 
-    public void addAddress(UserAddressCreateDTO dto) {
-        UserAddress address = new UserAddress(dto);
-        addressRepository.save(address);
+    // 배송지 등록
+    @Transactional
+    public UserAddressResponse createAddress(UserAddressRequest request) {
+        // 기본 배송지로 설정하는 경우, 기존 기본 배송지 해제
+        if (request.getIsDefault() != null && request.getIsDefault()) {
+            userAddressRepository.unsetDefaultByUserId(request.getUserId());
+        }
+
+        UserAddress address = UserAddress.builder()
+                .user(SiteUser.builder().userId(request.getUserId()).build())
+                .recipientName(request.getRecipientName())
+                .baseAddress(request.getBaseAddress())
+                .detailAddress(request.getDetailAddress())
+                .zipcode(request.getZipcode())
+                .isDefault(request.getIsDefault() != null ? request.getIsDefault() : false)
+                .build();
+
+        UserAddress savedAddress = userAddressRepository.save(address);
+        return convertToResponse(savedAddress);
     }
 
-    public void updateAddress(Long addressId, UserAddressUpdateDTO dto) {
-        UserAddress address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new RuntimeException("주소 없음"));
-        address.updateFromDTO(dto);
-        addressRepository.save(address);
+    // 배송지 수정
+    @Transactional
+    public UserAddressResponse updateAddress(Long addressId, UserAddressRequest request) {
+        UserAddress address = userAddressRepository.findById(addressId)
+                .orElseThrow(() -> new IllegalArgumentException("배송지를 찾을 수 없습니다."));
+
+        // 기본 배송지로 변경하는 경우
+        if (request.getIsDefault() != null && request.getIsDefault() && !address.getIsDefault()) {
+            userAddressRepository.unsetDefaultByUserId(address.getUser().getUserId());
+        }
+
+        address.setRecipientName(request.getRecipientName());
+        address.setBaseAddress(request.getBaseAddress());
+        address.setDetailAddress(request.getDetailAddress());
+        address.setZipcode(request.getZipcode());
+
+        if (request.getIsDefault() != null) {
+            address.setIsDefault(request.getIsDefault());
+        }
+
+        return convertToResponse(address);
     }
 
+    // 배송지 삭제
+    @Transactional
     public void deleteAddress(Long addressId) {
-        addressRepository.deleteById(addressId);
+        UserAddress address = userAddressRepository.findById(addressId)
+                .orElseThrow(() -> new IllegalArgumentException("배송지를 찾을 수 없습니다."));
+
+        userAddressRepository.delete(address);
+    }
+
+    // 기본 배송지 설정
+    @Transactional
+    public void setDefaultAddress(Long addressId, Long userId) {
+        UserAddress address = userAddressRepository.findById(addressId)
+                .orElseThrow(() -> new IllegalArgumentException("배송지를 찾을 수 없습니다."));
+
+        // 기존 기본 배송지 해제
+        userAddressRepository.unsetDefaultByUserId(userId);
+
+        // 새로운 기본 배송지 설정
+        address.setIsDefault(true);
+    }
+
+    // Entity -> Response DTO 변환
+    private UserAddressResponse convertToResponse(UserAddress address) {
+        return UserAddressResponse.builder()
+                .userAddressId(address.getUserAddressId())
+                .userId(address.getUser().getUserId())
+                .recipientName(address.getRecipientName())
+                .baseAddress(address.getBaseAddress())
+                .detailAddress(address.getDetailAddress())
+                .zipcode(address.getZipcode())
+                .isDefault(address.getIsDefault())
+                .createdAt(address.getCreatedAt())
+                .updatedAt(address.getUpdatedAt())
+                .build();
     }
 }

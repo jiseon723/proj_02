@@ -2,7 +2,6 @@ package com._2.proj_02.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -38,5 +37,4 @@ public class Cart {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-}
 }
