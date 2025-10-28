@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.product.dto.response;
 
-import com.gobang.gobang.domain.product.dto.ProductDto;
+import com._2.proj_02.domain.product.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

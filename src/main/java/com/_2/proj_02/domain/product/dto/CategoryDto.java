@@ -1,5 +1,6 @@
 package com._2.proj_02.domain.product.dto;
 
+import com._2.proj_02.domain.product.entity.Category;
 import lombok.*;
 
 import java.time.LocalDateTime;
