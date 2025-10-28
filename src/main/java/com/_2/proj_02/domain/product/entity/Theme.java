@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "theme",
         indexes = {
                 @Index(name = "idx_theme_parent", columnList = "parent_id"),
-                @Index(name = "idx_theme_active", columnList = "is_active")
+                @Index(name = "idx_theme_active", columnList = "active")
         },
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_theme_code", columnNames = {"code"})
@@ -48,7 +48,7 @@ public class Theme extends BaseEntity {
     private Integer displayOrder = 0;
 
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean active = true;
 
 //    @Comment("대표 썸네일 이미지")

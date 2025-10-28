@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.auth.entity;
 
-import com._2.proj_02.domain.mypage.entity.Follow;
+import com._2.proj_02.domain.personal.entity.Follow;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -66,6 +66,6 @@ public class Studio {
 
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> follows = new ArrayList<>();
 }

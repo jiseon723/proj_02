@@ -1,17 +1,12 @@
 package com._2.proj_02.domain.product.entity;
 
-import com._2.proj_02.domain.mypage.entity.Cart;
-import com._2.proj_02.domain.mypage.entity.OrderItem;
-import com._2.proj_02.domain.mypage.entity.WishList;
 import com._2.proj_02.domain.product.common.ProductStatus;
 import com._2.proj_02.global.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,21 +19,42 @@ import java.util.Set;
 @Table(name = "product",
         uniqueConstraints = @UniqueConstraint(name = "uk_product_slug", columnNames = {"slug"}),
         indexes = {
-//                @Index(name = "idx_product_subcategory", columnList = "subcategory_id"),
-//                @Index(name = "idx_product_status", columnList = "status"),
+                @Index(name = "idx_product_subcategory", columnList = "subcategory_id"),
+                @Index(name = "idx_product_status", columnList = "status"),
                 @Index(name = "idx_product_active_stock", columnList = "stock_quantity")
         })
 public class Product extends BaseEntity {
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
+    // 판매자
+    @Column(nullable = false)
+    private Long sellerId;
+
+    // 소속 테마
+    private Long themeId;
+
+    // 기본 카테고리
+    @Column(nullable = false)
+    private Long categoryId;
 
     @Column(length = 200, nullable = false)
     private String name;
 
+    // 짧은 요약
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
+    // 상세 설명
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(length = 200, nullable = false)
     private String slug;
+
+
+    // 한 줄 설명
+    private String subtitle;
 
 
     @Column(name = "base_price", nullable = false)
@@ -53,11 +69,10 @@ public class Product extends BaseEntity {
     private Boolean backorderable = false;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "subcategory_id")
-//    private Subcategory subcategory;
-//
-//
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategory_id")
+    private Subcategory subcategory;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 16, nullable = false)
     private ProductStatus status = ProductStatus.DRAFT;
@@ -68,6 +83,9 @@ public class Product extends BaseEntity {
     @Column(name = "seo_description", length = 255)
     private String seoDescription;
 
+    // 판매 중 여부
+    @Column(nullable = false)
+    private Boolean active = true;
 
 //    @CreationTimestamp
 //    @Column(name = "created_at", updatable = false)
@@ -91,12 +109,15 @@ public class Product extends BaseEntity {
     )
     private Set<Theme> themes = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cart> carts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WishList> wishLists = new ArrayList<>();
+    // 소유측: 조인테이블 정의
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "product_category_map",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"),
+            uniqueConstraints = @UniqueConstraint(
+                    name = "uk_product_category", columnNames = {"product_id","category_id"}
+            )
+    )
+    private Set<Category> category = new LinkedHashSet<>();
 }

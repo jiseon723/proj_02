@@ -1,6 +1,6 @@
 package com._2.proj_02.domain.product.dto.response;
 
-import com._2.proj_02.domain.product.dto.ThemeDto;
+import com.gobang.gobang.domain.product.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,6 +9,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ProductResponse {
-    //private final List<Product> productList;
-    private final List<ThemeDto> themeList;
+    private final List<ProductDto> productList;
 }

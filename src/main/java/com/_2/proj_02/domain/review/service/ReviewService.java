@@ -1,7 +1,11 @@
 package com._2.proj_02.domain.review.service;
 
+import com._2.proj_02.domain.review.dto.ReviewDto;
 import com._2.proj_02.domain.review.entity.Review;
 import com._2.proj_02.domain.review.repository.ReviewRepository;
+import com._2.proj_02.global.RsData.RsData;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,23 +31,43 @@ public class ReviewService {
     }
 
     // 리뷰 등록
-//    @Transactional
-//    public Review save(Review review) {
-//        return reviewRepository.save(review);
-//    }
-//
-//    @Transactional
-//    public Review createReview(ReviewCreateRequestDto dto) {
-//        Review review = Review.builder()
-//                .orderId(dto.getOrderId())
-//                .orderItemId(dto.getOrderItemId())
-//                .productId(dto.getProductId())
-//                .userId(dto.getUserId())
-//                .rating(dto.getRating())
-//                .content(dto.getContent())
-//                .build();
-//        return save(review);
-//    }
+    @Transactional
+    public RsData<Review> createReview(ReviewDto.ReviewCreateRequest dto) {
+        Review review = Review.builder()
+                .orderId(dto.getOrderId())
+                .orderItemId(dto.getOrderItemId())
+                .productId(dto.getProductId())
+                .userId(dto.getUserId())
+                .rating(dto.getRating())
+                .content(dto.getContent())
+                .isActive(true)
+                .reviewLike(0)
+                .viewCount(0)
+                .build();
+
+        reviewRepository.save(review);
+
+        return RsData.of("200","리뷰가 등록되었습니다.", review);
+    }
+
+    public Optional<Review> findById(Long id) {
+
+        return reviewRepository.findById(id);
+    }
+
+    @Transactional
+    public RsData<Review> modify(Review review, @NotNull Integer rating, @NotBlank String content) {
+        review.setRating(rating);
+        review.setContent(content);
+
+        reviewRepository.save(review);
+
+        return RsData.of(
+                "200",
+                "%d번 리뷰가 수정되었습니다.".formatted(review.getId()),
+                review
+        );
+    }
 //
 //    // 리뷰 수정
 //    @Transactional
@@ -54,8 +78,8 @@ public class ReviewService {
 //            return reviewRepository.save(review);
 //        });
 //    }
-//
-//
+
+
 //    // 리뷰 삭제
 //    @Transactional
 //    public boolean deleteReview(Long id) {
