@@ -1,8 +1,8 @@
 package com._2.proj_02.global.initData;
 
-import com.gobang.gobang.domain.product.category.service.CategoryService;
-import com.gobang.gobang.domain.product.filter.service.FilterService;
-import com.gobang.gobang.domain.product.theme.service.ThemeService;
+import com._2.proj_02.domain.product.category.service.CategoryService;
+import com._2.proj_02.domain.product.filter.service.FilterService;
+import com._2.proj_02.domain.product.theme.service.ThemeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

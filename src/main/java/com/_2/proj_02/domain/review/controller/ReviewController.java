@@ -95,7 +95,7 @@ public class ReviewController {
 
     // 리뷰 등록
     @PostMapping("")
-    public RsData<ReviewDto.CreateReviewResponse> createReview(@Valid @RequestBody ReviewCreateRequest reviewCreateRequest) {
+    public RsData<ReviewDto.CreateReviewResponse> createReview(@Valid @RequestBody ReviewDto.ReviewCreateRequest reviewCreateRequest) {
         RsData<Review> createRs = reviewService.createReview(reviewCreateRequest);
 
         if (createRs.isFail()) return (RsData) createRs;
@@ -103,7 +103,7 @@ public class ReviewController {
         return RsData.of(
                 createRs.getResultCode(),
                 createRs.getMsg(),
-                new CreateReviewResponse(createRs.getData())
+                new ReviewDto.CreateReviewResponse(createRs.getData())
         );
     }
 
