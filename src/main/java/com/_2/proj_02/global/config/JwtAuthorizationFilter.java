@@ -1,12 +1,16 @@
 package com._2.proj_02.global.config;
 
+import com._2.proj_02.domain.auth.entity.SiteUser;
+import com._2.proj_02.domain.auth.repository.SiteUserRepository;
 import com._2.proj_02.domain.auth.service.SiteUserService;
+import com._2.proj_02.global.jwt.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,6 +21,8 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final HttpServletRequest req;
+    private final JwtProvider jwtProvider;
+    private final SiteUserRepository siteUserRepository;
 
     private final SiteUserService siteUserService;
     @Override
@@ -54,6 +60,27 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // 인가 처리
             SecurityContextHolder.getContext().setAuthentication(securityUser.getAuthentication());
         }
+
+//        // @AuthenticationPrincipal로 로그인 사용자(userDetails) 꺼내기
+//        if (accessToken != null && !accessToken.isBlank() && jwtProvider.verify(accessToken)) {
+//            System.out.println("[JwtFilter] Token verified successfully");
+//            // 토큰에서 claims 꺼내기
+//            String username = (String) jwtProvider.getClaims(accessToken).get("username");
+//            System.out.println("[JwtFilter] username from token: " + username);
+//
+//            // SiteUser 조회
+//            SiteUser siteUser = siteUserRepository.findByUserName(username)
+//                    .orElseThrow(() -> new RuntimeException("사용자 없음"));
+//            System.out.println("[JwtFilter] User found in DB: " + siteUser.getUserName());
+//
+//            // CustomUserDetails 생성
+//            CustomUserDetails userDetails = new CustomUserDetails(siteUser);
+//
+//            // Spring Security 컨텍스트에 등록
+//            UsernamePasswordAuthenticationToken auth =
+//                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//            SecurityContextHolder.getContext().setAuthentication(auth);
+//        }
 
 
         filterChain.doFilter(request, response);

@@ -5,6 +5,7 @@ import com._2.proj_02.global.util.Util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -82,7 +83,6 @@ public class JwtProvider {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 
@@ -99,4 +99,23 @@ public class JwtProvider {
         return Util.toMap(body);
     }
 
+//    // 헤더에서 토큰 가져오기
+//    public String resolveToken(HttpServletRequest request) {
+//        String bearer = request.getHeader("Authorization");
+//        if (bearer != null && bearer.startsWith("Bearer ")) {
+//            return bearer.substring(7);
+//        }
+//        return null;
+//    }
+//
+//    // 토큰 유효성 체크
+//    public boolean validateToken(String token) {
+//        return verify(token);
+//    }
+//
+//    // 토큰에서 username 꺼내기
+//    public String getUsername(String token) {
+//        Map<String, Object> claims = getClaims(token);
+//        return claims.get("username").toString();
+//    }
 }

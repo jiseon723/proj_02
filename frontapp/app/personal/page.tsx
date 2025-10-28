@@ -27,7 +27,7 @@ export default function MyPage() {
   const [loading, setLoading] = useState(true);
   
   // API 엔드포인트 설정
-  const API_BASE_URL = '/api'; // 여기만 수정하세요
+  const API_BASE_URL = '/api'; // 여기 수정
   
   // JWT 토큰에서 userId 추출
   const getToken = () => localStorage.getItem('token') || sessionStorage.getItem('token');

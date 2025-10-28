@@ -149,6 +149,11 @@ public class SiteUserService {
 
     }
 
+//    public SiteUserResponse getSiteUserByUserId(Long userId) {
+//        SiteUser user = siteUserRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+//        return new SiteUserResponse(user);
+//    }
 
     @AllArgsConstructor
     @Getter

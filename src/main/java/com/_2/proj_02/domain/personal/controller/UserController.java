@@ -1,12 +1,15 @@
 package com._2.proj_02.domain.personal.controller;
 
 import com._2.proj_02.domain.auth.service.SiteUserService;
+import com._2.proj_02.domain.personal.dto.MyPageDTO;
 import com._2.proj_02.domain.personal.dto.request.SiteUserUpdateRequest;
 import com._2.proj_02.domain.personal.dto.response.SiteUserResponse;
 import com._2.proj_02.domain.personal.service.SmsVerificationService;
 import com._2.proj_02.domain.personal.service.VerificationStatusService;
 import com._2.proj_02.global.RsData.RsData;
+//import com._2.proj_02.global.config.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +19,18 @@ public class UserController {
     private final SiteUserService siteUserService;
     private final SmsVerificationService smsVerificationService;
     private final VerificationStatusService verificationStatusService;
+
+//    @GetMapping
+//    public RsData<SiteUserResponse> getMyPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+//        if (userDetails == null) {
+//            return RsData.of("401", "로그인이 필요합니다.");
+//        }
+//
+//        Long userId = userDetails.getUser().getId();
+//        SiteUserResponse response = siteUserService.getSiteUserByUserId(userId);
+//
+//        return RsData.of("200", "마이페이지 조회 성공", response);
+//    }
 
     @GetMapping("/me")
     public RsData<SiteUserResponse> getMyInfo() {
